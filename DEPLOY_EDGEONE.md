@@ -6,7 +6,7 @@ This project can be deployed to EdgeOne Pages for mainland China accessibility.
 
 - The project is already a standard Next.js app.
 - It can run without external AI keys because it includes local fallback logic.
-- You can add OpenAI env vars later without changing the code structure.
+- You can add OpenAI or Ark env vars later without changing the code structure.
 
 ## Before you deploy
 
@@ -26,6 +26,7 @@ This project can be deployed to EdgeOne Pages for mainland China accessibility.
    - `.vercel/`
    - `.npm-cache/`
    - `.env`
+   - `.env.local`
 
 ## EdgeOne Pages recommended settings
 
@@ -40,6 +41,9 @@ If EdgeOne auto-detects Next.js, keep the default framework settings.
 
 You can leave all of these empty for the first deployment.
 
+- `ARK_API_KEY`
+- `ARK_TEXT_MODEL`
+- `ARK_BASE_URL`
 - `OPENAI_API_KEY`
 - `OPENAI_TEXT_MODEL`
 - `OPENAI_IMAGE_MODEL`

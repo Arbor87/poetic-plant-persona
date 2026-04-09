@@ -85,21 +85,62 @@ function fallbackAnalyze(input: string) {
   };
 }
 
-async function modelAnalyze(input: string) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
+function parseModelPayload(raw: string) {
+  const parsed = JSON.parse(raw) as {
+    personalityTags?: PersonalityTag[];
+    personalityType?: string;
+    summary?: string;
+  };
+
+  if (!parsed.personalityTags?.length || !parsed.personalityType || !parsed.summary) {
     return null;
   }
 
-  const model = process.env.OPENAI_TEXT_MODEL ?? "gpt-4.1-mini";
-  const response = await fetch("https://api.openai.com/v1/responses", {
+  return {
+    personalityTags: mergeTags(parsed.personalityTags),
+    personalityType: parsed.personalityType,
+    summary: parsed.summary
+  };
+}
+
+function extractOutputText(data: unknown) {
+  if (!data || typeof data !== "object") {
+    return null;
+  }
+
+  if ("output_text" in data && typeof data.output_text === "string") {
+    return data.output_text;
+  }
+
+  if (!("output" in data) || !Array.isArray(data.output)) {
+    return null;
+  }
+
+  const texts = data.output.flatMap((item) => {
+    if (!item || typeof item !== "object" || !("content" in item) || !Array.isArray(item.content)) {
+      return [];
+    }
+
+    return item.content
+      .filter((content: unknown) => content && typeof content === "object" && "type" in content && content.type === "output_text")
+      .map((content: unknown) =>
+        content && typeof content === "object" && "text" in content && typeof content.text === "string" ? content.text : ""
+      )
+      .filter(Boolean);
+  });
+
+  return texts.join("").trim() || null;
+}
+
+async function requestModelAnalyze(input: string, options: { apiKey: string; model: string; baseUrl: string }) {
+  const response = await fetch(`${options.baseUrl}/responses`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${options.apiKey}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model,
+      model: options.model,
       input: [
         { role: "system", content: ANALYSIS_SYSTEM_PROMPT },
         { role: "user", content: input }
@@ -116,26 +157,44 @@ async function modelAnalyze(input: string) {
     return null;
   }
 
-  const data = (await response.json()) as { output_text?: string };
-  if (!data.output_text) {
+  const data = (await response.json()) as unknown;
+  const raw = extractOutputText(data);
+  if (!raw) {
     return null;
   }
 
-  const parsed = JSON.parse(data.output_text) as {
-    personalityTags?: PersonalityTag[];
-    personalityType?: string;
-    summary?: string;
-  };
+  try {
+    return parseModelPayload(raw);
+  } catch {
+    return null;
+  }
+}
 
-  if (!parsed.personalityTags?.length || !parsed.personalityType || !parsed.summary) {
+async function modelAnalyze(input: string) {
+  const arkApiKey = process.env.ARK_API_KEY;
+  const arkModel = process.env.ARK_TEXT_MODEL;
+  if (arkApiKey && arkModel) {
+    const arkResult = await requestModelAnalyze(input, {
+      apiKey: arkApiKey,
+      model: arkModel,
+      baseUrl: process.env.ARK_BASE_URL ?? "https://ark.cn-beijing.volces.com/api/v3"
+    });
+
+    if (arkResult) {
+      return arkResult;
+    }
+  }
+
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+  if (!openaiApiKey) {
     return null;
   }
 
-  return {
-    personalityTags: mergeTags(parsed.personalityTags),
-    personalityType: parsed.personalityType,
-    summary: parsed.summary
-  };
+  return requestModelAnalyze(input, {
+    apiKey: openaiApiKey,
+    model: process.env.OPENAI_TEXT_MODEL ?? "gpt-4.1-mini",
+    baseUrl: process.env.OPENAI_BASE_URL ?? "https://api.openai.com/v1"
+  });
 }
 
 function scorePlant(tags: PersonalityTag[], plant: PlantProfile) {
@@ -172,3 +231,4 @@ export async function analyzePersonality(input: string): Promise<AnalysisResult>
     plant
   };
 }
+

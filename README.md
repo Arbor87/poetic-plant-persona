@@ -198,10 +198,19 @@ npm run dev
 可选环境变量：
 
 ```bash
+ARK_API_KEY=your_ark_key
+ARK_TEXT_MODEL=your_ark_endpoint_id
+ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/v3
 OPENAI_API_KEY=your_key
 OPENAI_IMAGE_MODEL=gpt-image-1
 OPENAI_TEXT_MODEL=gpt-4.1-mini
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
+
+推荐优先级：
+
+- 如果配置了 `ARK_API_KEY + ARK_TEXT_MODEL`，人格分析优先走火山方舟文本模型
+- 否则若配置了 OpenAI 文本模型，则走 OpenAI
+- 若都未配置，则回退到本地规则分析
 
 部署到公网后，将首页 URL 生成二维码即可实现“扫码跳转网页”。
