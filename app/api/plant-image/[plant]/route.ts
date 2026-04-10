@@ -3,7 +3,7 @@
 import { PLANT_MAP } from "@/lib/data/plants";
 import { PlantSlug } from "@/lib/types";
 
-const PALETTE: Record<string, { main: string; accent: string; wash: string }> = {
+const PALETTE: Record<PlantSlug, { main: string; accent: string; wash: string }> = {
   bamboo: { main: "#5d7661", accent: "#8ba08a", wash: "#eef2ea" },
   orchid: { main: "#768a6c", accent: "#9fb0a0", wash: "#eef1ea" },
   plum: { main: "#6a4f4f", accent: "#d8b3ba", wash: "#f5eff0" },
@@ -11,8 +11,84 @@ const PALETTE: Record<string, { main: string; accent: string; wash: string }> = 
   pine: { main: "#485c52", accent: "#91a28e", wash: "#ecefe9" },
   willow: { main: "#8a9d78", accent: "#c1d0a9", wash: "#f1f4ec" },
   chrysanthemum: { main: "#8b7a53", accent: "#d9c690", wash: "#f6f2e8" },
-  "peach-blossom": { main: "#9f6e73", accent: "#edc5ca", wash: "#f8eff0" }
+  "peach-blossom": { main: "#9f6e73", accent: "#edc5ca", wash: "#f8eff0" },
+  osmanthus: { main: "#7d6b48", accent: "#d7bb67", wash: "#f6f1e5" },
+  crabapple: { main: "#8f6874", accent: "#efc2cf", wash: "#f9eff3" },
+  "apricot-blossom": { main: "#97716e", accent: "#f1d2c4", wash: "#faf2ed" },
+  "pear-blossom": { main: "#767d86", accent: "#f2f4f3", wash: "#f6f7f4" },
+  "parasol-tree": { main: "#596167", accent: "#8c7761", wash: "#efede8" },
+  "banana-leaf": { main: "#516c57", accent: "#9fbc94", wash: "#edf3ea" },
+  wisteria: { main: "#756d93", accent: "#c5bbe7", wash: "#f1eff8" },
+  maple: { main: "#815348", accent: "#d98a62", wash: "#f7efe8" }
 };
+
+function drawBlossomBranch(
+  main: string,
+  accent: string,
+  blossoms: Array<{ x: number; y: number; r: number }>
+) {
+  return `
+    <g fill="none" stroke-linecap="round">
+      <path d="M250 935 C330 785, 420 655, 590 450" stroke="${main}" stroke-width="11" />
+      <path d="M465 602 C402 542, 350 500, 295 470" stroke="${main}" stroke-width="7" />
+      <path d="M560 490 C625 448, 690 402, 748 332" stroke="${main}" stroke-width="7" />
+      <g fill="${accent}" stroke="none">
+        ${blossoms.map((blossom) => `<circle cx="${blossom.x}" cy="${blossom.y}" r="${blossom.r}" />`).join("")}
+      </g>
+    </g>`;
+}
+
+function drawCanopyTree(main: string, accent: string, canopy: Array<{ cx: number; cy: number; rx: number; ry: number; opacity: number }>) {
+  return `
+    <g fill="none" stroke-linecap="round">
+      <path d="M455 935 C450 805, 456 645, 470 360" stroke="${main}" stroke-width="12" />
+      <path d="M468 600 C408 555, 350 520, 292 465" stroke="${main}" stroke-width="7" opacity="0.92" />
+      <path d="M478 560 C555 525, 625 485, 710 420" stroke="${main}" stroke-width="7" opacity="0.92" />
+      <g fill="${accent}" stroke="none">
+        ${canopy
+          .map(
+            (leaf) =>
+              `<ellipse cx="${leaf.cx}" cy="${leaf.cy}" rx="${leaf.rx}" ry="${leaf.ry}" opacity="${leaf.opacity}" />`
+          )
+          .join("")}
+      </g>
+    </g>`;
+}
+
+function drawCascade(main: string, accent: string) {
+  return `
+    <g fill="none" stroke-linecap="round">
+      <path d="M240 360 C360 325, 480 322, 645 360" stroke="${main}" stroke-width="9" />
+      <path d="M300 380 C285 525, 292 675, 320 860" stroke="${main}" stroke-width="5" />
+      <path d="M390 372 C372 520, 378 680, 405 895" stroke="${main}" stroke-width="5" />
+      <path d="M485 370 C470 530, 474 698, 505 905" stroke="${main}" stroke-width="5" />
+      <path d="M585 374 C568 520, 575 670, 605 882" stroke="${main}" stroke-width="5" />
+      <path d="M670 390 C650 515, 658 640, 688 820" stroke="${main}" stroke-width="5" />
+      <g fill="${accent}" stroke="none" opacity="0.88">
+        <ellipse cx="300" cy="505" rx="26" ry="40" />
+        <ellipse cx="316" cy="585" rx="22" ry="34" />
+        <ellipse cx="395" cy="520" rx="28" ry="42" />
+        <ellipse cx="412" cy="615" rx="22" ry="36" />
+        <ellipse cx="488" cy="520" rx="26" ry="40" />
+        <ellipse cx="505" cy="620" rx="20" ry="34" />
+        <ellipse cx="588" cy="520" rx="28" ry="40" />
+        <ellipse cx="605" cy="620" rx="22" ry="36" />
+        <ellipse cx="676" cy="525" rx="24" ry="38" />
+      </g>
+    </g>`;
+}
+
+function drawBroadLeaves(main: string, accent: string) {
+  return `
+    <g fill="none" stroke-linecap="round">
+      <path d="M455 940 C452 835, 456 712, 468 500" stroke="${main}" stroke-width="8" />
+      <path d="M468 720 C378 650, 320 570, 280 440 C368 442, 430 505, 470 650" fill="${accent}" fill-opacity="0.28" stroke="${main}" stroke-width="5" />
+      <path d="M476 690 C555 598, 620 520, 705 420 C660 548, 590 638, 492 748" fill="${accent}" fill-opacity="0.24" stroke="${main}" stroke-width="5" />
+      <path d="M456 590 C412 498, 392 420, 402 315 C470 398, 490 472, 485 568" fill="${accent}" fill-opacity="0.2" stroke="${main}" stroke-width="4" />
+      <path d="M332 468 C380 510, 420 568, 455 652" stroke="${main}" stroke-width="3" opacity="0.65" />
+      <path d="M635 500 C585 560, 540 628, 496 736" stroke="${main}" stroke-width="3" opacity="0.65" />
+    </g>`;
+}
 
 function drawPlant(plant: PlantSlug, main: string, accent: string) {
   switch (plant) {
@@ -41,17 +117,14 @@ function drawPlant(plant: PlantSlug, main: string, accent: string) {
           <circle cx="436" cy="425" r="14" fill="${accent}" opacity="0.75" />
         </g>`;
     case "plum":
-      return `
-        <g fill="none" stroke-linecap="round">
-          <path d="M250 910 C330 770, 415 620, 565 420" stroke="${main}" stroke-width="12" />
-          <path d="M445 600 C410 540, 370 500, 318 470" stroke="${main}" stroke-width="8" />
-          <path d="M535 500 C615 455, 675 400, 728 320" stroke="${main}" stroke-width="8" />
-          <g fill="${accent}" stroke="none">
-            <circle cx="325" cy="468" r="18" /><circle cx="562" cy="420" r="20" />
-            <circle cx="720" cy="330" r="17" /><circle cx="438" cy="592" r="14" />
-            <circle cx="620" cy="460" r="16" /><circle cx="388" cy="538" r="12" />
-          </g>
-        </g>`;
+      return drawBlossomBranch(main, accent, [
+        { x: 325, y: 468, r: 18 },
+        { x: 388, y: 538, r: 12 },
+        { x: 438, y: 592, r: 14 },
+        { x: 562, y: 420, r: 20 },
+        { x: 620, y: 460, r: 16 },
+        { x: 720, y: 330, r: 17 }
+      ]);
     case "lotus":
       return `
         <g fill="none" stroke-linecap="round">
@@ -101,17 +174,71 @@ function drawPlant(plant: PlantSlug, main: string, accent: string) {
           <circle cx="470" cy="470" r="28" fill="${accent}" opacity="0.85" />
         </g>`;
     case "peach-blossom":
-      return `
-        <g fill="none" stroke-linecap="round">
-          <path d="M260 935 C330 785, 420 655, 590 450" stroke="${main}" stroke-width="11" />
-          <path d="M465 602 C402 542, 350 500, 295 470" stroke="${main}" stroke-width="7" />
-          <path d="M560 490 C625 448, 690 402, 748 332" stroke="${main}" stroke-width="7" />
-          <g fill="${accent}" stroke="none">
-            <circle cx="300" cy="470" r="16" /><circle cx="344" cy="498" r="12" />
-            <circle cx="450" cy="610" r="14" /><circle cx="593" cy="450" r="17" />
-            <circle cx="670" cy="388" r="16" /><circle cx="736" cy="334" r="15" />
-          </g>
-        </g>`;
+      return drawBlossomBranch(main, accent, [
+        { x: 300, y: 470, r: 16 },
+        { x: 344, y: 498, r: 12 },
+        { x: 450, y: 610, r: 14 },
+        { x: 593, y: 450, r: 17 },
+        { x: 670, y: 388, r: 16 },
+        { x: 736, y: 334, r: 15 }
+      ]);
+    case "osmanthus":
+      return drawBlossomBranch(main, accent, [
+        { x: 314, y: 470, r: 8 },
+        { x: 354, y: 492, r: 7 },
+        { x: 446, y: 608, r: 8 },
+        { x: 586, y: 450, r: 9 },
+        { x: 658, y: 386, r: 8 },
+        { x: 730, y: 334, r: 7 },
+        { x: 618, y: 410, r: 7 },
+        { x: 525, y: 505, r: 8 }
+      ]);
+    case "crabapple":
+      return drawBlossomBranch(main, accent, [
+        { x: 304, y: 470, r: 18 },
+        { x: 350, y: 500, r: 14 },
+        { x: 450, y: 610, r: 15 },
+        { x: 590, y: 448, r: 19 },
+        { x: 665, y: 385, r: 18 },
+        { x: 734, y: 334, r: 16 },
+        { x: 620, y: 430, r: 13 }
+      ]);
+    case "apricot-blossom":
+      return drawBlossomBranch(main, accent, [
+        { x: 302, y: 470, r: 14 },
+        { x: 345, y: 500, r: 12 },
+        { x: 447, y: 610, r: 12 },
+        { x: 592, y: 450, r: 14 },
+        { x: 666, y: 386, r: 13 },
+        { x: 733, y: 334, r: 12 }
+      ]);
+    case "pear-blossom":
+      return drawBlossomBranch(main, accent, [
+        { x: 300, y: 470, r: 15 },
+        { x: 346, y: 498, r: 13 },
+        { x: 450, y: 610, r: 13 },
+        { x: 592, y: 450, r: 16 },
+        { x: 668, y: 388, r: 15 },
+        { x: 735, y: 334, r: 14 }
+      ]);
+    case "parasol-tree":
+      return drawCanopyTree(main, accent, [
+        { cx: 350, cy: 455, rx: 96, ry: 74, opacity: 0.24 },
+        { cx: 472, cy: 388, rx: 108, ry: 78, opacity: 0.26 },
+        { cx: 600, cy: 455, rx: 100, ry: 74, opacity: 0.22 },
+        { cx: 520, cy: 520, rx: 84, ry: 60, opacity: 0.18 }
+      ]);
+    case "banana-leaf":
+      return drawBroadLeaves(main, accent);
+    case "wisteria":
+      return drawCascade(main, accent);
+    case "maple":
+      return drawCanopyTree(main, accent, [
+        { cx: 335, cy: 470, rx: 90, ry: 72, opacity: 0.22 },
+        { cx: 462, cy: 392, rx: 112, ry: 82, opacity: 0.28 },
+        { cx: 600, cy: 470, rx: 100, ry: 74, opacity: 0.24 },
+        { cx: 520, cy: 540, rx: 88, ry: 62, opacity: 0.2 }
+      ]);
   }
 }
 
@@ -139,7 +266,6 @@ function svgForPlant(plantSlug: PlantSlug, tags: string[]) {
     ${illustration}
     <text x="120" y="160" font-size="72" fill="${colors.main}" font-family="STSong, Songti SC, serif">${plant.name}</text>
     <text x="124" y="220" font-size="24" fill="${colors.main}" fill-opacity="0.65" font-family="Noto Serif SC, Songti SC, serif">${text}</text>
-    <text x="124" y="1010" font-size="24" fill="${colors.main}" fill-opacity="0.58" font-family="Noto Serif SC, Songti SC, serif">东方诗意草木意象 / 无人物 / 留白</text>
   </svg>
   `.trim();
 }

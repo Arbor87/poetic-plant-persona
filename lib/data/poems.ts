@@ -1,4 +1,4 @@
-import { PoemEntry } from "@/lib/types";
+﻿import { PoemEntry } from "@/lib/types";
 
 export const POEMS: PoemEntry[] = [
   {
@@ -143,6 +143,150 @@ export const POEMS: PoemEntry[] = [
     line: "人间四月芳菲尽，山寺桃花始盛开。",
     author: "白居易",
     title: "大林寺桃花",
+    dynasty: "唐"
+  },
+  {
+    id: "osmanthus-1",
+    plant: "osmanthus",
+    emotionTags: ["安静", "温润", "含蓄"],
+    line: "人闲桂花落，夜静春山空。",
+    author: "王维",
+    title: "鸟鸣涧",
+    dynasty: "唐"
+  },
+  {
+    id: "osmanthus-2",
+    plant: "osmanthus",
+    emotionTags: ["温润", "耐看", "克制"],
+    line: "暗淡轻黄体性柔，情疏迹远只香留。",
+    author: "李清照",
+    title: "鹧鸪天·桂花",
+    dynasty: "宋"
+  },
+  {
+    id: "crabapple-1",
+    plant: "crabapple",
+    emotionTags: ["柔美", "敏感", "浪漫"],
+    line: "只恐夜深花睡去，故烧高烛照红妆。",
+    author: "苏轼",
+    title: "海棠",
+    dynasty: "宋"
+  },
+  {
+    id: "crabapple-2",
+    plant: "crabapple",
+    emotionTags: ["细腻", "柔软", "春意"],
+    line: "试问卷帘人，却道海棠依旧。",
+    author: "李清照",
+    title: "如梦令·昨夜雨疏风骤",
+    dynasty: "宋"
+  },
+  {
+    id: "apricot-blossom-1",
+    plant: "apricot-blossom",
+    emotionTags: ["灵动", "温柔", "轻盈"],
+    line: "沾衣欲湿杏花雨，吹面不寒杨柳风。",
+    author: "志南",
+    title: "绝句",
+    dynasty: "宋"
+  },
+  {
+    id: "apricot-blossom-2",
+    plant: "apricot-blossom",
+    emotionTags: ["明快", "清新", "春意"],
+    line: "小楼一夜听春雨，深巷明朝卖杏花。",
+    author: "陆游",
+    title: "临安春雨初霁",
+    dynasty: "宋"
+  },
+  {
+    id: "pear-blossom-1",
+    plant: "pear-blossom",
+    emotionTags: ["明净", "安静", "清冷"],
+    line: "寂寞空庭春欲晚，梨花满地不开门。",
+    author: "刘方平",
+    title: "春怨",
+    dynasty: "唐"
+  },
+  {
+    id: "pear-blossom-2",
+    plant: "pear-blossom",
+    emotionTags: ["疏淡", "月色", "清凉"],
+    line: "梨花院落溶溶月，柳絮池塘淡淡风。",
+    author: "晏殊",
+    title: "寓意",
+    dynasty: "宋"
+  },
+  {
+    id: "parasol-tree-1",
+    plant: "parasol-tree",
+    emotionTags: ["独立", "清醒", "沉静"],
+    line: "缺月挂疏桐，漏断人初静。",
+    author: "苏轼",
+    title: "卜算子·黄州定慧院寓居作",
+    dynasty: "宋"
+  },
+  {
+    id: "parasol-tree-2",
+    plant: "parasol-tree",
+    emotionTags: ["疏离", "安静", "边界感"],
+    line: "梧桐更兼细雨，到黄昏、点点滴滴。",
+    author: "李清照",
+    title: "声声慢·寻寻觅觅",
+    dynasty: "宋"
+  },
+  {
+    id: "banana-leaf-1",
+    plant: "banana-leaf",
+    emotionTags: ["敏感", "柔软", "有情绪感"],
+    line: "窗前谁种芭蕉树？阴满中庭。",
+    author: "李清照",
+    title: "添字丑奴儿·窗前谁种芭蕉树",
+    dynasty: "宋"
+  },
+  {
+    id: "banana-leaf-2",
+    plant: "banana-leaf",
+    emotionTags: ["细密", "感性", "夜雨"],
+    line: "芭蕉不展丁香结，同向春风各自愁。",
+    author: "李商隐",
+    title: "代赠二首·其一",
+    dynasty: "唐"
+  },
+  {
+    id: "wisteria-1",
+    plant: "wisteria",
+    emotionTags: ["浪漫", "灵动", "春意"],
+    line: "紫藤挂云木，花蔓宜阳春。",
+    author: "李白",
+    title: "紫藤树",
+    dynasty: "唐"
+  },
+  {
+    id: "wisteria-2",
+    plant: "wisteria",
+    emotionTags: ["温柔", "流动", "延展"],
+    line: "藤花无次第，万朵一时开。",
+    author: "白居易",
+    title: "紫藤",
+    dynasty: "唐"
+  },
+  {
+    id: "maple-1",
+    plant: "maple",
+    emotionTags: ["热烈", "清醒", "成熟"],
+    line: "停车坐爱枫林晚，霜叶红于二月花。",
+    author: "杜牧",
+    title: "山行",
+    dynasty: "唐"
+  },
+  {
+    id: "maple-2",
+    plant: "maple",
+    emotionTags: ["层次", "秋色", "明艳"],
+    line: "浔阳江头夜送客，枫叶荻花秋瑟瑟。",
+    author: "白居易",
+    title: "琵琶行",
     dynasty: "唐"
   }
 ];

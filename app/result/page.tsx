@@ -12,11 +12,7 @@ export default async function ResultPage({
   const text = params.text?.trim() ?? "";
 
   return (
-    <PageShell
-      eyebrow="YOUR PLANT"
-      title="性格已落字，草木来回应"
-      description="结果页展示草木图像、人格解析与严格限定在唐诗宋词中的一句诗。后续如接入真实图片模型，只需要替换服务层即可。"
-    >
+    <PageShell eyebrow="YOUR PLANT" title="性格已落字，草木来回应" description="">
       <div className="mb-6">
         <Link href="/input" className="text-sm text-ink/60 transition hover:text-ink">
           返回输入页

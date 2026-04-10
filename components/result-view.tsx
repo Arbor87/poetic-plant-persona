@@ -83,7 +83,6 @@ export function ResultView({ text }: { text: string }) {
             <span className="loading-dot h-2.5 w-2.5 rounded-full bg-bamboo" />
           </div>
           <p className="font-serif text-2xl text-ink">正在为你寻找一株相合的草木</p>
-          <p className="mt-3 text-sm text-ink/60">分析性格、匹配诗句、生成意象图像中。</p>
         </div>
       </div>
     );
@@ -123,13 +122,7 @@ export function ResultView({ text }: { text: string }) {
           <div className="flex justify-center">
             <p className="poem-vertical font-serif text-2xl leading-10 tracking-[0.25em] text-ink">{poem.line}</p>
           </div>
-          <div className="flex flex-col justify-between">
-            <div>
-              <p className="text-xs tracking-[0.35em] text-bamboo/80">唐诗宋词</p>
-              <p className="mt-4 text-sm leading-8 text-ink/80">
-                这句诗与你的草木气质更接近{plant.name}的{plant.temperament.slice(0, 2).join("、")}之意。
-              </p>
-            </div>
+          <div className="flex flex-col justify-end">
             <div className="border-t border-ink/8 pt-5 text-sm leading-7 text-ink/65">
               <p>
                 {poem.dynasty} · {poem.author}

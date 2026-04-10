@@ -1,4 +1,4 @@
-export type PlantSlug =
+﻿export type PlantSlug =
   | "bamboo"
   | "orchid"
   | "plum"
@@ -6,7 +6,17 @@ export type PlantSlug =
   | "pine"
   | "willow"
   | "chrysanthemum"
-  | "peach-blossom";
+  | "peach-blossom"
+  | "osmanthus"
+  | "crabapple"
+  | "apricot-blossom"
+  | "pear-blossom"
+  | "parasol-tree"
+  | "banana-leaf"
+  | "wisteria"
+  | "maple";
+
+export type PlantCategory = "flower" | "tree" | "vine" | "grass" | "leaf";
 
 export interface PersonalityTag {
   name: string;
@@ -17,11 +27,15 @@ export interface PlantProfile {
   slug: PlantSlug;
   name: string;
   aliases: string[];
+  category: PlantCategory;
   temperament: string[];
+  coreKeywords: string[];
   keywords: string[];
+  avoidTags: string[];
+  poemThemes: string[];
+  season: string[];
   imagePromptCore: string;
   descriptionTemplate: string;
-  poemThemes: string[];
 }
 
 export interface PoemEntry {
