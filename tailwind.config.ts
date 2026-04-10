@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+﻿import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -9,23 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#f8f3ea",
-        ink: "#2f3b37",
-        mist: "#d9ded8",
-        bamboo: "#7c9379",
-        pine: "#56685e",
-        seal: "#8f4c3b"
+        paper: "#f4eee3",
+        ink: "#2b332f",
+        mist: "#d8d4cb",
+        bamboo: "#72836f",
+        pine: "#46554f",
+        seal: "#7b453d",
+        earth: "#a38b6d",
+        dusk: "#69726b"
       },
       fontFamily: {
         serif: ["STSong", "Songti SC", "Noto Serif SC", "serif"],
         sans: ["PingFang SC", "Noto Sans SC", "sans-serif"]
       },
       boxShadow: {
-        soft: "0 20px 60px rgba(51, 62, 56, 0.10)"
+        soft: "0 28px 80px rgba(42, 50, 46, 0.10)",
+        veil: "0 12px 32px rgba(77, 67, 55, 0.08)"
       },
       backgroundImage: {
         parchment:
-          "radial-gradient(circle at top, rgba(255,255,255,0.75), rgba(248,243,234,0.92) 38%, rgba(233,236,229,0.82) 100%)"
+          "radial-gradient(circle at top, rgba(255,255,255,0.82), rgba(244,238,227,0.94) 34%, rgba(227,223,212,0.86) 100%)"
       }
     }
   },
