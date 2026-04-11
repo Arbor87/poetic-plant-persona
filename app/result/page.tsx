@@ -1,10 +1,16 @@
 ﻿import Link from "next/link";
-import { Suspense } from "react";
 
-import { ResultPageClient } from "@/components/result-page-client";
+import { ResultView } from "@/components/result-view";
 import { PageShell } from "@/components/ui/page-shell";
 
-export default function ResultPage() {
+export default async function ResultPage({
+  searchParams
+}: {
+  searchParams: Promise<{ text?: string }>;
+}) {
+  const params = await searchParams;
+  const text = params.text?.trim() ?? "";
+
   return (
     <PageShell eyebrow="YOUR PLANT" title="性格已落字，草木来回应" description="">
       <div className="mb-6">
@@ -12,22 +18,17 @@ export default function ResultPage() {
           返回输入页
         </Link>
       </div>
-      <Suspense
-        fallback={
-          <div className="ink-card flex min-h-[420px] items-center justify-center p-8">
-            <div className="text-center">
-              <div className="mb-4 flex items-center justify-center gap-2">
-                <span className="loading-dot h-2.5 w-2.5 rounded-full bg-bamboo" />
-                <span className="loading-dot h-2.5 w-2.5 rounded-full bg-bamboo" />
-                <span className="loading-dot h-2.5 w-2.5 rounded-full bg-bamboo" />
-              </div>
-              <p className="font-serif text-2xl text-ink">正在整理你的草木结果</p>
-            </div>
-          </div>
-        }
-      >
-        <ResultPageClient />
-      </Suspense>
+      {text ? (
+        <ResultView text={text} />
+      ) : (
+        <div className="ink-card p-8">
+          <p className="font-serif text-2xl text-ink">缺少性格描述</p>
+          <p className="mt-4 text-sm text-ink/70">请先输入一段关于自己的描述，再生成结果。</p>
+          <Link href="/input" className="mt-6 inline-flex rounded-full bg-ink px-6 py-3 text-sm text-paper">
+            去输入
+          </Link>
+        </div>
+      )}
     </PageShell>
   );
 }

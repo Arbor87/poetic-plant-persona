@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { buildStaticResultPayload } from "@/lib/static/result";
 import { ResultPayload } from "@/lib/types";
 
 function downloadResult(data: ResultPayload) {
@@ -31,12 +30,20 @@ export function ResultView({ text }: { text: string }) {
 
   useEffect(() => {
     let cancelled = false;
-    setData(null);
-    setError(null);
 
-    const timer = window.setTimeout(() => {
+    async function run() {
       try {
-        const payload = buildStaticResultPayload(text);
+        const response = await fetch("/api/result", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+
+        if (!response.ok) {
+          throw new Error("生成失败");
+        }
+
+        const payload = (await response.json()) as ResultPayload;
         if (!cancelled) {
           setData(payload);
         }
@@ -45,11 +52,12 @@ export function ResultView({ text }: { text: string }) {
           setError(err instanceof Error ? err.message : "生成失败");
         }
       }
-    }, 280);
+    }
+
+    run();
 
     return () => {
       cancelled = true;
-      window.clearTimeout(timer);
     };
   }, [text]);
 
